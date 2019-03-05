@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Evan's Game Page</title>
+
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+    </style>
+
+</head>
+<body>
+<canvas id="myCanvas" width="2000" height="2000" style="border:10px solid #000000;"></canvas>
+<p id="first"></p>
+<p id="second"></p>
+<p id="third"></p>
+<p id="fourth"></p>
+<p id="fifth"></p>
+<script src="game.js"></script>
+<script src="leaderboard.js"></script>
+<script>
+
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#004D00";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    function drawGrid() {
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = "#D1D1E0";
+        var x = 0;
+        while (x < canvas.width) {
+            ctx.lineTo(x, canvas.height);
+            ctx.stroke();
+            x += 20;
+            ctx.moveTo(x, 0);
+        }
+        ctx.moveTo(0, 0);
+        var y = 0;
+        while (y < canvas.height) {
+            ctx.lineTo(canvas.width, y);
+            ctx.stroke();
+            y += 20;
+            ctx.moveTo(0, y);
+        }
+    }
+
+    function getRandomArbitrary(min, max) {
+        return Math.floor(Math.random() * (max - min)) + min;
+    }
+
+    function makePlayer(){
+        ctx.fillStyle = "#FF0000";
+        ctx.fillRect(getRandomArbitrary(0, 100)*20, getRandomArbitrary(0, 100)*20, 20, 20);
+    }
+    function setUpLeaderboard() {
+        document.getElementById("first").innerHTML = playerName+": "+score
+    }
+
+    drawGrid();
+    makePlayer();
+    setUpLeaderboard();
+
+</script>
+
+
+</body>
+</html>
