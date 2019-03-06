@@ -2,12 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Evan's Game Page</title>
+    <title>Color Splash Tag</title>
+    <link rel="shortcut icon" type="image/png" href="http://www.i2clipart.com/force_download.php?file=/cliparts/c/f/d/9/256225cfd9427dc955676ee12b5ac2b398c378.png"/>
 <style>
+
     h1 {
         font-family: Impact, Charcoal, sans-serif;
         font-size: 30px;
         letter-spacing: 5px;
+
     }
 
     ul {
@@ -24,7 +27,7 @@
     aside > div {
         background-image: linear-gradient(300deg, powderblue 20%, #1fc8db 51%, #2cb5e8 75%);
         text-align: left;
-        padding: 25px 0px 5px 5px;
+        padding: 25px 10px 5px 5px;
         font-size: 25px;
         height: 50px;
         width: 320px;
@@ -49,9 +52,6 @@
         top: 5px;
         left: 1615px;
         display: table-cell;
-    }
-    div {
-
     }
 </style>
 
@@ -92,14 +92,22 @@
 
 
 <script>
-    var canvas = document.getElementById("myCanvas");
-    canvas.addEventListener('keydown', moveIt, true);
-    var ctx = canvas.getContext("2d");
-    ctx.fillStyle = "#FFFFFF";
-    ctx.fillRect(100, 100, 20, 20);
-    var x = 100;
-    var y = 100;
 
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+    drawGrid(20);
+    var r = getRandomArbitrary(0, 255).toString();
+    var g = getRandomArbitrary(0, 255).toString();
+    var b = getRandomArbitrary(0, 255).toString();
+    var rgb = "rgba("+r+", "+g+", "+b+", 1.0)";
+    ctx.fillStyle = rgb;
+    var squareSize = 20;
+    var x = getRandomArbitrary(0, canvas.width / squareSize) * squareSize;
+    var y = getRandomArbitrary(0, canvas.height / squareSize) * squareSize;
+    ctx.fillRect(x, y, squareSize, squareSize);
+    ctx.strokeStyle = "#000000"
+    ctx.strokeRect(x, y, squareSize, squareSize);
+/*
     function moveIt(e) {
         if (e.charCode === 38) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -126,17 +134,17 @@
             ctx.fillRect(x, y, 30, 30)
         }
     }
-
-    function drawGrid() {
+*/
+    function drawGrid(size) {
 
         ctx.lineWidth = 1;
-        ctx.strokeStyle = "#D1D1E0";
-        squareSize = 20;
+        ctx.strokeStyle = "#99bbe0";
+
         var x = 0;
         while (x < canvas.width) {
             ctx.lineTo(x, canvas.height);
             ctx.stroke();
-            x += squareSize;
+            x += size;
             ctx.moveTo(x, 0);
         }
         ctx.moveTo(0, 0);
@@ -144,7 +152,7 @@
         while (y < canvas.height) {
             ctx.lineTo(canvas.width, y);
             ctx.stroke();
-            y += squareSize;
+            y += size;
             ctx.moveTo(0, y);
         }
 
@@ -153,7 +161,7 @@
     function getRandomArbitrary(min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
     }
-
+/*
     function makePlayer() {
         ctx.fillStyle = "#FF0000";
         locationsDict = {"x": [], "y": []};
@@ -181,8 +189,8 @@
             ctx.fillRect(xDraw, yDraw, squareSize, squareSize);
         }
     }
+*/
 
-    drawGrid();
 
 
 </script>
