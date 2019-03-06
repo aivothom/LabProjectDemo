@@ -3,39 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <title>Evan's Game Page</title>
+<style>
+    h1 {
+        font-family: Impact, Charcoal, sans-serif;
+        font-size: 30px;
+        letter-spacing: 5px;
+    }
 
-    <style>
-        table, th, td {
-            border: 1px solid black;
-            border-collapse: collapse;
-        }
-    </style>
+    ul {
+        font-family: "Lucida Console", Monaco, monospace;
+    }
+
+    html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: powderblue;
+    }
+    aside > div {
+        background-image: linear-gradient(300deg, powderblue 20%, #1fc8db 51%, #2cb5e8 75%);
+        text-align: left;
+        padding: 25px 0px 5px 5px;
+        font-size: 25px;
+        height: 50px;
+        width: 320px;
+        background-color: powderblue;
+    }
+    section {
+        height: 100%;
+        width: 75%;
+        display: table-cell;
+    }
+    section > div {
+        position: fixed;
+        width: 310px;
+        height: 400px;
+        top: 500px;
+        left: 1615px;
+        display: table-cell;
+    }
+
+    aside {
+        position: fixed;
+        top: 5px;
+        left: 1615px;
+        display: table-cell;
+    }
+    div {
+
+    }
+</style>
 
 </head>
 <body>
-<canvas id="myCanvas" width="2000" height="2000" style="border:10px solid #000000;"></canvas>
-<p id="first"></p>
-<p id="second"></p>
-<p id="third"></p>
-<p id="fourth"></p>
-<p id="fifth"></p>
-<script src="game.js"></script>
-<script src="leaderboard.js"></script>
-<script>
 
+    <section>
+        <canvas id="myCanvas" width="1600" height="900" style="border:5px solid #000000;"></canvas>
+        <div id="instructions">
+            <h1><strong>HOW TO PLAY:</strong></h1><br>
+            <ul>
+                <li>Use the arrow keys to move your player around the map.</li><br>
+                <li>Attempt to collect food to increase your score.</li><br>
+                <li>BE CAREFUL!</li><br>
+                <li>Running into a wall or player with a higher score will set YOUR score to 0.</li>
+            </ul>
+
+        </div>
+    </section>
+    <aside>
+        <div id="first">
+            <h1>Evan: 25</h1>
+        </div><br>
+        <div id="second">
+            <h1>Elijah: 24</h1>
+        </div><br>
+        <div id="third">
+            <h1>Thomas: 23</h1>
+        </div><br>
+        <div id="fourth">
+            <h1>Brandon: 22</h1>
+        </div><br>
+        <div id="fifth">
+            <h1>Josh: 21</h1>
+        </div>
+    </aside>
+
+
+
+<script>
     var canvas = document.getElementById("myCanvas");
+    canvas.addEventListener('keydown', moveIt, true);
     var ctx = canvas.getContext("2d");
-    ctx.fillStyle = "#004D00";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillRect(100, 100, 20, 20);
+    var x = 100;
+    var y = 100;
+
+    function moveIt(e) {
+        if (e.charCode === 38) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawGrid();
+            y = y-20;
+            ctx.fillRect(x, y, 30, 30)
+        }
+        if (e.keyCode === 40) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawGrid();
+            y = y+20;
+            ctx.fillRect(x, y, 30, 30)
+        }
+        if (e.keyCode === 37) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawGrid();
+            x = x-20;
+            ctx.fillRect(x, y, 30, 30)
+        }
+        if (e.keyCode === 39) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawGrid();
+            x = x+20;
+            ctx.fillRect(x, y, 30, 30)
+        }
+    }
 
     function drawGrid() {
+
         ctx.lineWidth = 1;
         ctx.strokeStyle = "#D1D1E0";
+        squareSize = 20;
         var x = 0;
         while (x < canvas.width) {
             ctx.lineTo(x, canvas.height);
             ctx.stroke();
-            x += 20;
+            x += squareSize;
             ctx.moveTo(x, 0);
         }
         ctx.moveTo(0, 0);
@@ -43,29 +144,47 @@
         while (y < canvas.height) {
             ctx.lineTo(canvas.width, y);
             ctx.stroke();
-            y += 20;
+            y += squareSize;
             ctx.moveTo(0, y);
         }
+
     }
 
     function getRandomArbitrary(min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
     }
 
-    function makePlayer(){
+    function makePlayer() {
         ctx.fillStyle = "#FF0000";
-        ctx.fillRect(getRandomArbitrary(0, 100)*20, getRandomArbitrary(0, 100)*20, 20, 20);
-    }
-    function setUpLeaderboard() {
-        document.getElementById("first").innerHTML = playerName+": "+score
+        locationsDict = {"x": [], "y": []};
+        var i = 0;
+        while(i < 20) {
+            var x = getRandomArbitrary(0, canvas.width / squareSize) * squareSize;
+            var y = getRandomArbitrary(0, canvas.height / squareSize) * squareSize;
+            var lowX = x-squareSize;
+            var highX = x+squareSize;
+            var lowY = y-squareSize;
+            var highY = y+squareSize;
+            xPositions = locationsDict["x"];
+            yPositions = locationsDict["y"];
+            if((xPositions.includes(lowX) || xPositions.includes(highX) || xPositions.includes(x)) && (yPositions.includes(lowY) || yPositions.includes(highY) || yPositions.includes(y))) {}
+            else {
+                xPositions.push(x);
+                yPositions.push(y);
+                i += 1
+            }
+
+        }
+        for(i = 0; i < locationsDict["x"].length; i += 1){
+            var xDraw = locationsDict["x"][i];
+            var yDraw = locationsDict["y"][i];
+            ctx.fillRect(xDraw, yDraw, squareSize, squareSize);
+        }
     }
 
     drawGrid();
-    makePlayer();
-    setUpLeaderboard();
+
 
 </script>
-
-
 </body>
 </html>
