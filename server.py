@@ -1,5 +1,7 @@
 from flask import Flask, render_template
+import jsonify
 import json
+import request
 
 app = Flask(__name__)
 
@@ -21,6 +23,14 @@ def login():
     return render_template('login.html')
 
 
+@app.route('/', methods=['GET', 'POST'])
+def results():
+    if request.method == 'POST':
+        json.dump(request.form)
+    return render_template('login.html')
+
+
+
 #creating a json file for all of the usernames, score, and location
 def toJson():
     USERNAME = "aivothom"
@@ -40,4 +50,4 @@ def fromJson():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run("0.0.0.0")
