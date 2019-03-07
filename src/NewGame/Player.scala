@@ -1,7 +1,3 @@
 package NewGame
 
-class Player(){
-  var x = 0
-  var y = 0
-  var score = 0
-}
+class Player(var x: Int, var y: Int, var name: String, var score: Int = 0)

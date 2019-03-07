@@ -2,65 +2,69 @@ package NewGame
 
 import java.security.KeyStore.TrustedCertificateEntry
 
-import com.sun.media.jfxmedia.events.PlayerStateEvent.PlayerState
 import javafx.scene.input.KeyCode
+import play.api.libs.json.Json
+import scalaj.http.Http
+
+import scala.util.Random
 
 
-object Game {
-  var foodList: List[Int] = List.empty[Int]
-  var playerList: List[Int] = List.empty[Int]
-  var id = 1
-  var value = 1
-  val r = new scala.util.Random(1)
+class Game {
+  var playerList: List[String] = List.empty[String]
+  var foodList: List[Food] = List.empty[Food]
 
-  def createPlayer(input: Player): Player = {
-    var newx = r.nextInt(500)
-    var newy = r.nextInt(500)
-    input.x += newx
-    input.y += newy
-    playerList = playerList :+ id
-    id += 1
-    return input
+  def createPlayerAndRegister(r: Random): Player = {
+    val url = "https://uinames.com/api/?region=united+states"
+    val response = Http(url).asString.body
+    val parsed = Json.parse(response)
+    val name = (parsed \ "name").as[String]
+    var rx = r.nextInt(500)
+    var ry = r.nextInt(500)
+    var player = new Player(rx, ry, name)
+    player
   }
-  def createFood(input: Food): Food = {
-    var newx = r.nextInt(500)
-    var newy = r.nextInt(500)
-    input.x = 1 + r.nextInt(500)
-    input.y = 1 + r.nextInt(500)
-    foodList = foodList :+ value
-    value += 1
-    return input
+
+  def createAndRegisterFood(r: Random): Food = {
+    var rx = r.nextInt(500)
+    var ry = r.nextInt(500)
+    new Food(rx, ry)
   }
-  def playerCollide(input1: Player, input2: Player): Boolean ={
+
+  def playerCollide(input1: Player, input2: Player): Boolean = {
     var check = false
-    if (input1.x == input2.x && input1.y == input2.y){
+    if (input1.x == input2.x && input1.y == input2.y) {
       check = true
     }
     check
   }
-  def eatFood(input1: Player, input2: Food): Int ={
-    if (input1.x == input2.x && input1.y == input2.y){
-      input1.score += 1
+
+  def checkScore(input1: Player, input2: Player): String = {
+    var survivor = input1.name
+    var checker = playerCollide(input1, input2)
+    if (checker == true) {
+      if (input1.score > input2.score) {
+        input1.score += input2.score
+        input2.score = 0
+        survivor = input1.name
+      } else if (input1.score < input2.score) {
+        input2.score += input1.score
+        input1.score = 0
+        survivor = input2.name
+      } else if (input1.score == input2.score){
+        survivor = "Nothing"
+      }
+    } else if(checker == false){
+      survivor = "No collision"
+    }
+    survivor
+  }
+
+  def eatFood(input1: Player, input2: Food): Int = {
+    if (input1.x == input2.x && input1.y == input2.y) {
+      input1.score = input1.score + input2.worth
+      input2.worth = 0
     }
     input1.score
   }
-  def movement(keyCode: KeyCode): Unit ={
-    keyCode.getName match {
-      case "W" => println("Pressed")
-      case "A" => println("Pressed")
-      case "S" => println("Pressed")
-      case "D" => println("Pressed")
-      case _ => println(keyCode.getName + " pressed with no action")
-    }
-  }
-  def main(args: Array[String]): Unit = {
-    var food = createFood(new Food)
-    var player = createPlayer(new Player)
-    var player2 = createPlayer(new Player)
-    eatFood(player, food)
-    eatFood(player, food)
-    println(player.x, player.y)
-    println(food.x, food.y)
-    println(player2.x, player2.y)
-  }
 }
+

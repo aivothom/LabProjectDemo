@@ -1,36 +1,51 @@
 package tests
 
 import org.scalatest._
-import NewGame.{Player, Food, Game}
+import NewGame.{Food, Game, Player}
+
+import scala.util.Random
 
 class tester extends FunSuite{
   test("Functionality"){
-    val food = Game.createFood(new Food)
-    val player1 = Game.createPlayer(new Player)
-    val player2 = Game.createPlayer(new Player)
-    val foodTest = Game.eatFood(player1, food)
-    val collisionTest = Game.playerCollide(player1, player2)
+    var game = new Game
+    var player1 = game.createPlayerAndRegister(new Random(1))
+    var player2 = game.createPlayerAndRegister(new Random(1))
+    var player3 = game.createPlayerAndRegister(new Random(2))
+    var food1 = game.createAndRegisterFood(new Random(1))
+    var food2 = game.createAndRegisterFood(new Random(1))
 
-    assert(collisionTest == false)
-    assert(player1.score == 0)
-    assert(player1.x == 254)
-    assert(player1.y == 404)
-    assert(food.x == 348)
-    assert(food.y == 314)
+    assert(game.eatFood(player1, food1) == 1)
+    assert(food1.worth == 0)
+    assert(game.eatFood(player1, food1) == 1)
+    assert(game.eatFood(player1, food2) == 2)
+    assert(game.checkScore(player1, player2) == player1.name)
 
-    food.x = 500
-    food.y = 500
-    player1.x = 500
-    player1.y = 500
-    val tester = Game.eatFood(player1, food)
-    assert(player1.score == 1)
+    assert(game.playerCollide(player1, player2))
+    assert(game.playerCollide(player1, player3) == false)
 
-    player1.x = 100
-    player1.y = 100
-    player2.x = 100
-    player2.y = 100
-    val collisionTest2 = Game.playerCollide(player1, player2)
-    assert(collisionTest2 == true)
+    player1.score = 0
+    assert(game.checkScore(player1, player2) == "Nothing")
+
+    player1.x = 0
+    assert(game.eatFood(player1, food1) == 0)
+    assert(game.checkScore(player1, player2) == "No collision")
+
+    player1.score = 10
+    player2.score = 5
+    player1.x = 15
+    player1.y = 15
+    player2.x = 15
+    player2.y = 15
+    var playGame = game.checkScore(player1, player2)
+    assert(player1.score == 15)
+    assert(player2.score == 0)
+
+
+
+
+
+
+
 
 
 
