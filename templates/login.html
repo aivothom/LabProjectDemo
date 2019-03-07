@@ -1,28 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <center><h1>Please Sign In</h1></center>
-    <title>Login Page</title>
+    <title>Type in name to play!</title>
+    <style>
+        #myform {
+            margin:0 auto;
+            width:500px;
+            padding:14px;
+        }
+
+        label {
+            width: 10em;
+            float: left;
+            margin-right: 0.5em;
+            display: block;
+            vertical-align: middle;
+            horiz-align: center;
+        }
+        .submit {
+            float:right;
+        }
+
+        fieldset {
+            background:#EBF4FB none repeat scroll 0 0;
+            border:2px solid #B7DDF2;
+            width: 450px;
+        }
+
+        legend {
+            color: #fff;
+            background: #1fc8db;
+            border: 1px solid #781351;
+            padding: 2px 6px
+        }
+        .elements {
+            padding:10px;
+        }
+        p {
+            border-bottom:1px solid #1fc8db;
+            color:#666666;
+            font-size:12px;
+            margin-bottom:20px;
+            padding-bottom:10px;
+        }
+        span {
+            color:#666666;
+            font-size:12px;
+            margin-bottom:1px;
+
+        }
+        .btn{
+            padding: 4px 12px;
+            margin-bottom: 0;
+            font-size: 14px;
+            line-height: 20px;
+            color: #333333;
+            text-align: center;
+            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+            vertical-align: middle;
+            cursor: pointer;
+            background-color: #1fc8db;
+            border: 1px solid #1fc8db;
+
+        }
+
+        .btn:hover{
+            color: #333333;
+            background-color: #e6e6e6;
+        }
+
+    </style>
+    <script></script>
 </head>
 
-<header>
-    <form method=post action="/register">
-        <center>
-        <dl>
-            <dt><label for="username">Username</label>
-            <dd><input id="username" name="username" type="text" value="">
 
-            </dd>
+<form id="myform" type="post">
+    <fieldset>
+        <legend>Login</legend>
+        <p>Login/Sign Up to play!</p>
+        <div class="elements">
+            <label for="myform">Name :</label>
+            <input  required="required" type="text"  value="" name="name"  size="20"  />
+        </div>
 
-        </dl>
-        <p><input type=submit value=Register>
-            </center>
-    </form>
-
-</header>
-
-<body>
-
+        <div class="submit">
+            <input type="submit" id="btn" name="btn" class="btn" value="Submit" />
+        </div>
+    </fieldset>
+</form>
 </body>
-
 </html>
