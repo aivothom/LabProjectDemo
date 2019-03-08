@@ -4,148 +4,152 @@
     <meta charset="UTF-8">
     <title>Color Splash Tag</title>
     <link rel="shortcut icon" type="image/png" href="http://www.i2clipart.com/force_download.php?file=/cliparts/c/f/d/9/256225cfd9427dc955676ee12b5ac2b398c378.png"/>
-<style>
+    <link href='https://fonts.googleapis.com/css?family=Aldrich' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Bahiana' rel='stylesheet'>
+    <style>
+        #instructions {
+            display: block;
+            margin-top: 30px;
+        }
+        aside span h1{
+            font-family: "Bahiana";
+            font-size: 30px;
+            letter-spacing: 3px;
+            position: relative;
+            top: 20%;
+        }
+        li {
+            padding-bottom: 15px;
+        }
+        h1 {
+            font-family: Impact, Charcoal, sans-serif;
+            font-size: 30px;
+            letter-spacing: 5px;
+            margin: 5px;
+        }
+        p {
+            display: block;
+            margin: 2px;
+            font-family: "Aldrich";
+            font-size: 15px;
+        }
+        ul {
+            font-family: "Lucida Console", Monaco, monospace;
+            padding-left: 25px;
+            margin: 0;
+        }
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: powderblue;
+        }
+        aside {
+            position: absolute;
+            top: 25px;
+            left: 1615px;
+            display: table-cell;
+        }
+        aside > span {
+            background-image: linear-gradient(300deg, powderblue 20%, #1fc8db 51%, #2cb5e8 75%);
+            text-align: left;
+            font-size: 25px;
+            height: 50px;
+            width: 320px;
+            margin-top: 0;
+            display: block;
+        }
+        section {
+            height: 100%;
+            width: 75%;
+            display: table-cell;
+        }
+        section > div {
+            position: absolute;
+            width: 310px;
+            height: 400px;
+            top: 400px;
+            left: 1610px;
+            display: table-cell;
+        }
+    </style>
 
-    h1 {
-        font-family: Impact, Charcoal, sans-serif;
-        font-size: 30px;
-        letter-spacing: 5px;
-
-    }
-
-    ul {
-        font-family: "Lucida Console", Monaco, monospace;
-    }
-
-    html, body {
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        background-color: powderblue;
-    }
-    aside > div {
-        background-image: linear-gradient(300deg, powderblue 20%, #1fc8db 51%, #2cb5e8 75%);
-        text-align: left;
-        padding: 25px 10px 5px 5px;
-        font-size: 25px;
-        height: 50px;
-        width: 320px;
-        background-color: powderblue;
-    }
-    section {
-        height: 100%;
-        width: 75%;
-        display: table-cell;
-    }
-    section > div {
-        position: fixed;
-        width: 310px;
-        height: 400px;
-        top: 500px;
-        left: 1615px;
-        display: table-cell;
-    }
-
-    aside {
-        position: fixed;
-        top: 5px;
-        left: 1615px;
-        display: table-cell;
-    }
-</style>
-<script type="text/javascript" src="/static/game.js">
-    drawGrid(20)
-</script>
 
 </head>
 <body>
 
-    <section>
-        <canvas id="myCanvas" width="1600" height="900" style="border:5px solid #000000;"></canvas>
-        <div id="instructions">
-            <h1><strong>HOW TO PLAY:</strong></h1><br>
-            <ul>
-                <li>Use the arrow keys to move your player around the map.</li><br>
-                <li>Attempt to collect food to increase your score.</li><br>
-                <li>BE CAREFUL!</li><br>
-                <li>Running into a wall or player with a higher score will set YOUR score to 0.</li>
-            </ul>
+<section>
+    <canvas id="myCanvas" width="1600" height="900" style="border:5px solid #000000;"></canvas>
+    <div id="instructions">
+        <h1><strong>HOW TO PLAY:</strong></h1><br>
+        <ul>
+            <li>Use <u><strong>W</strong></u>, <u><strong>A</strong></u>, <u><strong>S</strong></u>, and <u><strong>D</strong></u> to move your player around the map.</li>
+            <li>Attempt to <strong>collect food</strong> to <strong>increase your score</strong>.</li>
+            <li>BE <strong><u>CAREFUL</u></strong> and <strong><u>CAUTIOUS</u></strong>!</li>
+            <li>Running into a wall or player with a higher score <strong><u>will set YOUR score to 0</u>.</strong></li>
+        </ul>
 
-        </div>
-    </section>
-    <aside>
-        <div id="first">
+    </div>
+</section>
+<aside>
+    <p><Strong>First Place:</Strong></p>
+    <span id="first">
             <h1>Evan: 25</h1>
-        </div><br>
-        <div id="second">
+        </span>
+    <p><Strong>Second Place:</Strong></p>
+    <span id="second">
             <h1>Elijah: 24</h1>
-        </div><br>
-        <div id="third">
+        </span>
+    <p><Strong>Third Place:</Strong></p>
+    <span id="third">
             <h1>Thomas: 23</h1>
-        </div><br>
-        <div id="fourth">
+        </span>
+    <p><Strong>Fourth Place:</Strong></p>
+    <span id="fourth">
             <h1>Brandon: 22</h1>
-        </div><br>
-        <div id="fifth">
+        </span>
+    <p><Strong>Fifth Place:</Strong></p>
+    <span id="fifth">
             <h1>Josh: 21</h1>
-        </div>
-    </aside>
-
+        </span>
+</aside>
+<script type="text/javascript" src="/game.js">
+    makeOneRandomPlayer()
+</script>
 
 
 <script>
-
+    var squareSize = 20;
+    var radius = squareSize/4;
     var canvas = document.getElementById("myCanvas");
     var ctx = canvas.getContext("2d");
     drawGrid(20);
-    var r = getRandomArbitrary(0, 255).toString();
-    var g = getRandomArbitrary(0, 255).toString();
-    var b = getRandomArbitrary(0, 255).toString();
-    var rgb = "rgba("+r+", "+g+", "+b+", 1.0)";
-    ctx.fillStyle = rgb;
-    var squareSize = 20;
-    var x = getRandomArbitrary(0, canvas.width / squareSize) * squareSize;
-    var y = getRandomArbitrary(0, canvas.height / squareSize) * squareSize;
-    ctx.fillRect(x, y, squareSize, squareSize);
-    ctx.strokeStyle = "#000000"
-    ctx.strokeRect(x, y, squareSize, squareSize);
-    drawGrid();
-    makePlayer();
-    getRandomArbitrary();
-/*
-    function moveIt(e) {
-        if (e.charCode === 38) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawGrid();
-            y = y-20;
-            ctx.fillRect(x, y, 30, 30)
-        }
-        if (e.keyCode === 40) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawGrid();
-            y = y+20;
-            ctx.fillRect(x, y, 30, 30)
-        }
-        if (e.keyCode === 37) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawGrid();
-            x = x-20;
-            ctx.fillRect(x, y, 30, 30)
-        }
-        if (e.keyCode === 39) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawGrid();
-            x = x+20;
-            ctx.fillRect(x, y, 30, 30)
-        }
+    makeOnePlayer();
+    makeOneFood();
+    function makeOnePlayer(){
+        var r = getRandomArbitrary(0, 255).toString();
+        var g = getRandomArbitrary(0, 255).toString();
+        var b = getRandomArbitrary(0, 255).toString();
+        ctx.fillStyle = "rgba("+r+", "+g+", "+b+", 1.0)";
+        ctx.strokeStyle = "#000000";
+        var x = (getRandomArbitrary(0, canvas.width / squareSize) * squareSize);
+        var y = (getRandomArbitrary(0, canvas.height / squareSize) * squareSize);
+        ctx.fillRect(x, y, squareSize, squareSize);
+        ctx.strokeRect(x, y, squareSize, squareSize);
     }
-*/
- /*   function drawGrid(size) {
-
+    function makeOneFood() {
+        var foodx = (getRandomArbitrary(0, canvas.width / squareSize) * squareSize) + (radius*2);
+        var foody = (getRandomArbitrary(0, canvas.height / squareSize) * squareSize) + (radius*2);
+        ctx.fillStyle = "#FF0000";
+        ctx.moveTo(foodx, foody);
+        ctx.arc(foodx, foody, radius, 0, 2 * Math.PI);
+        ctx.closePath();
+        ctx.fill();
+    }
+    function drawGrid(size) {
         ctx.lineWidth = 1;
         ctx.strokeStyle = "#99bbe0";
-
         var x = 0;
         while (x < canvas.width) {
             ctx.lineTo(x, canvas.height);
@@ -161,44 +165,38 @@
             y += size;
             ctx.moveTo(0, y);
         }
-
     }
-
     function getRandomArbitrary(min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
-    }*/
-/*
-    function makePlayer() {
-        ctx.fillStyle = "#FF0000";
-        locationsDict = {"x": [], "y": []};
-        var i = 0;
-        while(i < 20) {
-            var x = getRandomArbitrary(0, canvas.width / squareSize) * squareSize;
-            var y = getRandomArbitrary(0, canvas.height / squareSize) * squareSize;
-            var lowX = x-squareSize;
-            var highX = x+squareSize;
-            var lowY = y-squareSize;
-            var highY = y+squareSize;
-            xPositions = locationsDict["x"];
-            yPositions = locationsDict["y"];
-            if((xPositions.includes(lowX) || xPositions.includes(highX) || xPositions.includes(x)) && (yPositions.includes(lowY) || yPositions.includes(highY) || yPositions.includes(y))) {}
-            else {
-                xPositions.push(x);
-                yPositions.push(y);
-                i += 1
-            }
-
-        }
-        for(i = 0; i < locationsDict["x"].length; i += 1){
-            var xDraw = locationsDict["x"][i];
-            var yDraw = locationsDict["y"][i];
-            ctx.fillRect(xDraw, yDraw, squareSize, squareSize);
-        }
     }
-*/
-
-
-
+    /*
+        function makePlayer() {
+            ctx.fillStyle = "#FF0000";
+            locationsDict = {"x": [], "y": []};
+            var i = 0;
+            while(i < 20) {
+                var x = getRandomArbitrary(0, canvas.width / squareSize) * squareSize;
+                var y = getRandomArbitrary(0, canvas.height / squareSize) * squareSize;
+                var lowX = x-squareSize;
+                var highX = x+squareSize;
+                var lowY = y-squareSize;
+                var highY = y+squareSize;
+                xPositions = locationsDict["x"];
+                yPositions = locationsDict["y"];
+                if((xPositions.includes(lowX) || xPositions.includes(highX) || xPositions.includes(x)) && (yPositions.includes(lowY) || yPositions.includes(highY) || yPositions.includes(y))) {}
+                else {
+                    xPositions.push(x);
+                    yPositions.push(y);
+                    i += 1
+                }
+            }
+            for(i = 0; i < locationsDict["x"].length; i += 1){
+                var xDraw = locationsDict["x"][i];
+                var yDraw = locationsDict["y"][i];
+                ctx.fillRect(xDraw, yDraw, squareSize, squareSize);
+            }
+        }
+    */
 </script>
 </body>
 </html>
